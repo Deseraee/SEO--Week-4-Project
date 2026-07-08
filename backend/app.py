@@ -64,12 +64,23 @@ def handle_scan():
     scan_result = analyze_image(image_base64)
 
     if scan_result:
-
         try:
             result_data = json.loads(scan_result)
+            discovery_data = {
+                "common_name": result_data.get("common_name"),
+                "scientific_name": result_data.get("scientific_name"),
+                "description": result_data.get("description"),
+                "region_or_origin": result_data.get("origin"),
+                "hazard_warning": result_data.get("safety_precautions"),
+                "fun_fact": result_data.get("fun_fact")
+            }
+            new_id = add_discovery(discovery_data)
+            result_data["id"] = new_id
             return jsonify(result_data), 200
         except json.JSONDecodeError:
             return jsonify({"result": scan_result, "raw": True}), 200
+        except Exception as e:
+            return jsonify({"error": f"Failed to save onto database: {str(e)}"}), 500
     else:
         return jsonify({"error": "Failed to analyze image"}), 500
     
