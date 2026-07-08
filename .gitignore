@@ -2,4 +2,5 @@ Backend/.env
 test_image.jpg
 test-endpoint.py
 test-scanner.py
+test_nps_routes.py
 .DS_Store

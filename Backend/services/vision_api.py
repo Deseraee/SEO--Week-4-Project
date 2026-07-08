@@ -2,20 +2,20 @@ import os
 import anthropic
 from dotenv import load_dotenv
 
-# 1. Load the environment variables from the .env file
+# Load the environment variables from the .env file
 load_dotenv()
 
-# 2. Retrieve the key from the environment
+# Retrieve the key from the environment
 api_key = os.environ.get("ANTHROPIC_API_KEY")
 if not api_key:
     raise ValueError("ANTHROPIC_API_KEY is missing from the environment variables. Check your .env file.")
 
-# 3. Initialize the Anthropic client securely
+# Initialize the Anthropic client securely
 client = anthropic.Anthropic(api_key=api_key)
 
 def analyze_image(base64_image_string):
     """
-    Takes a base64 encoded image string, sends it to Claude 3.5 Sonnet,
+    Takes a base64 encoded image string, sends it to Claude, parses the response,
     and returns a JSON string with detailed species identification and safety info.
     """
     
