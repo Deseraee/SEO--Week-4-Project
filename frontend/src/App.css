@@ -154,6 +154,7 @@
   height: 220px;
   margin: 0 auto;
   border: 2px dashed #a8c4a2;
+  border-radius: 14px;
   background:#fdfcf5;
   cursor: pointer;
   transition: border-color 0.3s, background 0.3s;
@@ -163,8 +164,10 @@
   background: #f3f8ef;
 }
 
-.upload-icon {
-  font-size: 36px;
+.leaf-icon {
+  width: 32px;
+  height: 32px;
+  color: #4d6f4d;
 }
 
 .upload-text {
