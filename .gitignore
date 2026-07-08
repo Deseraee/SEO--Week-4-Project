@@ -3,3 +3,10 @@ __pycache__/
 *.pyc
 .DS_Store
 backend/wildfind.db
+Backend/.env
+test_image.jpg
+test-endpoint.py
+test-scanner.py
+test_nps_routes.py
+app.py
+.DS_Store
