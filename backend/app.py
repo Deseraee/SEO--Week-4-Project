@@ -4,9 +4,11 @@ from database import create_database, add_discovery, get_discoveries
 from services.vision_api import analyze_image
 from services.nps_api import get_aggregated_park_dashboard, get_all_parks
 
+import json 
 app = Flask(__name__)
+
 # Crucial: Enable CORS so your React frontend can talk to this server
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # ROUTES FROM Database & Discoveries
 
@@ -43,23 +45,45 @@ def list_discoveries():
 
 # ROUTES FROM Vision API & NPS Dashboard)
 
-@app.route('/api/scan', methods=['POST'])
+@app.route('/api/scan', methods=['POST', 'OPTIONS'])
 def handle_scan():
-    data = request.json
-    image_base64 = data.get('image')
+    if request.method == 'OPTIONS':
+        response = jsonify({"message": "OK"})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        response.headers.add("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+        return response, 200
     
-    if not image_base64:
-        return jsonify({"error": "No image provided"}), 400
+    data = request.json
+    image_base64 = data.get('image') if data else None
 
+    if not image_base64:                                         
+        return jsonify({"error": "No image provided"}), 400        
+    
     # Call your secure helper function
     scan_result = analyze_image(image_base64)
-    
+
     if scan_result:
-        # convert the string back to a Python dictionary before sending it to React.
-        return scan_result, 200 
+        try:
+            result_data = json.loads(scan_result)
+            discovery_data = {
+                "common_name": result_data.get("common_name"),
+                "scientific_name": result_data.get("scientific_name"),
+                "description": result_data.get("description"),
+                "region_or_origin": result_data.get("origin"),
+                "hazard_warning": result_data.get("safety_precautions"),
+                "fun_fact": result_data.get("fun_fact")
+            }
+            new_id = add_discovery(discovery_data)
+            result_data["id"] = new_id
+            return jsonify(result_data), 200
+        except json.JSONDecodeError:
+            return jsonify({"result": scan_result, "raw": True}), 200
+        except Exception as e:
+            return jsonify({"error": f"Failed to save onto database: {str(e)}"}), 500
     else:
         return jsonify({"error": "Failed to analyze image"}), 500
-
+    
 # Get All Parks (For Searching)
 @app.route('/api/parks', methods=['GET'])
 def handle_get_parks():
@@ -71,6 +95,7 @@ def handle_get_parks():
     return jsonify(parks_data), 200
 
 # Park Safety Dashboard (Alerts & Road Events)
+
 @app.route('/api/dashboard', methods=['GET'])
 def handle_dashboard():
     park_code = request.args.get('park')
@@ -83,10 +108,9 @@ def handle_dashboard():
     
     return jsonify(dashboard_data), 200
 
-# EXECUTION BLOCK
 if __name__ == '__main__':
     print("Starting WildFind Backend on http://localhost:5001")
     # Initialize the database on startup (from app.py)
-    create_database() 
-    # Run the app on port 5001 (from app2.py)
+    create_database()
+     # Run the app on port 5001 (from app2.py)
     app.run(debug=True, port=5001)
