@@ -1,0 +1,5 @@
+Backend/.env
+test_image.jpg
+test-endpoint.py
+test-scanner.py
+.DS_Store
