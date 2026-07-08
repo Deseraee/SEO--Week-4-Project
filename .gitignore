@@ -8,5 +8,4 @@ test_image.jpg
 test-endpoint.py
 test-scanner.py
 test_nps_routes.py
-app.py
 .DS_Store
