@@ -59,10 +59,12 @@ def handle_scan():
 
     if not image_base64:                                         
         return jsonify({"error": "No image provided"}), 400        
-
+    
+    # Call your secure helper function
     scan_result = analyze_image(image_base64)
 
     if scan_result:
+
         try:
             result_data = json.loads(scan_result)
             return jsonify(result_data), 200
@@ -71,7 +73,7 @@ def handle_scan():
     else:
         return jsonify({"error": "Failed to analyze image"}), 500
     
-
+# Get All Parks (For Searching)
 @app.route('/api/parks', methods=['GET'])
 def handle_get_parks():
     parks_data = get_all_parks()
@@ -81,6 +83,8 @@ def handle_get_parks():
         
     return jsonify(parks_data), 200
 
+# Park Safety Dashboard (Alerts & Road Events)
+
 @app.route('/api/dashboard', methods=['GET'])
 def handle_dashboard():
     park_code = request.args.get('park')
@@ -88,11 +92,14 @@ def handle_dashboard():
     if not park_code:
         return jsonify({"error": "No park code provided. Please provide a valid 4-letter NPS code."}), 400
 
+    # This function aggregates both API calls (Alerts & Road Events)
     dashboard_data = get_aggregated_park_dashboard(park_code)
     
     return jsonify(dashboard_data), 200
 
 if __name__ == '__main__':
     print("Starting WildFind Backend on http://localhost:5001")
+    # Initialize the database on startup (from app.py)
     create_database()
+     # Run the app on port 5001 (from app2.py)
     app.run(debug=True, port=5001)

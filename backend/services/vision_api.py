@@ -27,11 +27,11 @@ def analyze_image(base64_image_string):
     
     media_type = "image/png"
 
-    # Ensure the image is correctly formatted
-    # If the image has a data:image prefix, remove it
     if base64_image_string.startswith('data:image'):
         header, base64_image_string = base64_image_string.split(',', 1)
         media_type = header.split(':')[1].split(';')[0]
+    
+    # We define the exact JSON structure we want Claude to return
     
     system_prompt = (
         "You are an expert park ranger and trail guide. Identify the plant, animal, insect, or fungus in the image. "
