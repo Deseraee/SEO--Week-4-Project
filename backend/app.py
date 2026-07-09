@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-from database import create_database, add_discovery, get_discoveries
+from database import create_database, add_discovery, get_discoveries, get_discoveries_by_username
 from services.vision_api import analyze_image
 from services.nps_api import get_aggregated_park_dashboard, get_all_parks
 import json
@@ -28,6 +28,8 @@ def save_discovery():
     if not data:
         return jsonify({"error": "No data sent"}), 400
 
+    data["username"] = data.get("username", "guest")
+
     if not data.get("common_name"):
         return jsonify({"error": "common_name is required"}), 400
 
@@ -41,6 +43,11 @@ def save_discovery():
 @app.route("/api/discoveries", methods=["GET"])
 def list_discoveries():
     discoveries = get_discoveries()
+    return jsonify(discoveries)
+
+@app.route("/api/discoveries/<username>", methods=["GET"])
+def list_user_discoveries(username):
+    discoveries = get_discoveries_by_username(username)
     return jsonify(discoveries)
 
 # ROUTES FROM Vision API & NPS Dashboard)
@@ -67,6 +74,7 @@ def handle_scan():
         try:
             result_data = json.loads(scan_result)
             discovery_data = {
+                "username": data.get("username", "guest"),
                 "common_name": result_data.get("common_name"),
                 "scientific_name": result_data.get("scientific_name"),
                 "description": result_data.get("description"),

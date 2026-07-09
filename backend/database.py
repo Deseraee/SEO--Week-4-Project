@@ -17,6 +17,7 @@ def create_database():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS discoveries (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT DEFAULT 'guest',
             common_name TEXT NOT NULL,
             scientific_name TEXT,
             description TEXT,
@@ -37,6 +38,7 @@ def add_discovery(data):
 
     cursor.execute("""
         INSERT INTO discoveries (
+            username,
             common_name,
             scientific_name,
             description,
@@ -44,8 +46,9 @@ def add_discovery(data):
             fun_fact,
             hazard_warning
         )
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     """, (
+        data.get("username", "guest"),
         data["common_name"],
         data.get("scientific_name", ""),
         data.get("description", ""),
@@ -69,6 +72,22 @@ def get_discoveries():
         SELECT * FROM discoveries
         ORDER BY id DESC
     """)
+
+    rows = cursor.fetchall()
+    connection.close()
+
+    return [dict(row) for row in rows]
+
+
+def get_discoveries_by_username(username):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT * FROM discoveries
+        WHERE username = ?
+        ORDER BY id DESC
+    """, (username,))
 
     rows = cursor.fetchall()
     connection.close()
