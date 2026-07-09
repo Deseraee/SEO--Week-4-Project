@@ -317,3 +317,55 @@
   font-size: 18px;
   color: #4a4e42;
 }
+/* History Page */
+
+.data-page {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.data-page h2 {
+  text-align: center;
+  color: #2f4a35;
+  font-size: 26px;
+  margin-bottom: 24px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.history-card {
+  background: #fdfcf5;
+  border: 1px solid #d8d6c8;
+  border-radius: 18px;
+  padding: 24px 28px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  color: #4a4e42;
+  line-height: 1.6;
+}
+
+.history-card div {
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.history-card strong {
+  color: #2f4a35;
+}
+
+.history-card div:first-child {
+  font-size: 19px;
+  font-weight: 700;
+  color: #2f4a35;
+  margin-bottom: 6px;
+}
+
+.placeholder-text {
+  text-align: center;
+  color: #4a4e42;
+  font-size: 17px;
+}

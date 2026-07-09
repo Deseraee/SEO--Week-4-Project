@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function Scan() {
+function Scan({ username }) {
   const [image, setImage] = useState(null)
   const [scanResult, setScanResult] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -23,7 +23,7 @@ function Scan() {
           ctx.drawImage(img, 0, 0)
           const pngBase64 = canvas.toDataURL('image/png').split(',')[1]
           console.log('Image converted to PNG base64, length:', pngBase64.length)
-          handleScan(pngBase64)  // ← FIXED: was png64String
+          handleScan(pngBase64)
         }
         img.src = reader.result
       }
@@ -38,18 +38,21 @@ function Scan() {
 
     try {
       console.log('Sending image to backend...')
+      console.log('Saving scan for username:', username)
       
       const response = await fetch('http://localhost:5001/api/scan', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ image: base64Image }),
+        body: JSON.stringify({
+          image: base64Image,
+          username: username,
+        }),
       })
 
       console.log('Response status:', response.status)
 
-      // Parse the response as JSON (don't use .text() first)
       const data = await response.json()
       console.log('Response data:', data)
 
