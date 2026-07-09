@@ -1,10 +1,28 @@
 import { Routes, Route, NavLink } from 'react-router-dom'
+import { useState } from 'react'
 import Home from './pages/Home'
 import Scan from './pages/Scan'
 import Data from './pages/Data'
+import Login from './pages/Login'
 import './App.css'
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const[username, setUsername] = useState("")
+  
+  const handleLogin = (username) => {
+    setIsLoggedIn(true)
+    setUsername(username)
+    console.log("User logged in:", username)
+  }
+  const handleLogout = () => {
+    setIsLoggedIn(false)
+    setUsername("")
+  }
+
+  if (!isLoggedIn) {
+    return <Login onLogin={handleLogin} />
+  }
   return (
     <div className="app-layout">
       <aside className="sidebar">
@@ -18,7 +36,7 @@ function App() {
           <NavLink to="/scan" className={({ isActive }) => isActive ? 'active' : ''}>
             Scan
           </NavLink>
-          <NavLink to="/Data" className={({ isActive }) => isActive ? 'active' : ''}>
+          <NavLink to="/data" className={({ isActive }) => isActive ? 'active' : ''}>
             History
           </NavLink>
         </nav>
@@ -27,6 +45,7 @@ function App() {
       <main className="main-content">
         <h1>Wildfind</h1>
         <Routes>
+          <Route path="/" element={<Home username={username} onLogout={handleLogout} />} />
           <Route path="/" element={<Home />} />
           <Route path="/scan" element={<Scan />} />
           <Route path="/data" element={<Data />} />
