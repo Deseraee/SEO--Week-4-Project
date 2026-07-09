@@ -65,8 +65,9 @@
 
 .login-page {
   display: flex;
+  flex-direction: column;  /* Stack items vertically */
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 10vh;
   padding: 50px 20px;
   box-sizing: border-box;
@@ -82,6 +83,7 @@
   text-align: center;
   box-sizing: border-box;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  margin-bottom: 30px;  /* Space between login and mission */
 }
 
 .login-subtitle {
@@ -143,6 +145,94 @@
   background: #67b56c;
 }
 
+/* ===== MISSION CONTAINER - BELOW LOGIN ===== */
+.mission-container {
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ===== MISSION SECTION ===== */
+.mission-section {
+  background: #fdfcf5;
+  border: 1px solid #d8d6c8;
+  padding: 30px 40px;
+  border-radius: 18px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.mission-section h2 {
+  font-size: 28px;
+  color: #2f4a35;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.mission-section p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #4a4e42;
+  margin-bottom: 12px;
+  text-align: center;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== FEATURES SECTION ===== */
+.features-section {
+  background: #fdfcf5;
+  border: 1px solid #d8d6c8;
+  padding: 30px 40px;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.features-section h2 {
+  text-align: center;
+  font-size: 28px;
+  color: #2f4a35;
+  margin-bottom: 30px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 20px;
+  background: #f6f3e7;
+  border-radius: 14px;
+  border: 1px solid #d8d6c8;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.feature-card h3 {
+  font-size: 16px;
+  color: #2f4a35;
+  margin-bottom: 6px;
+}
+
+.feature-card p {
+  font-size: 14px;
+  color: #4a4e42;
+  line-height: 1.5;
+}
+
+/* ===== UPLOAD BOX ===== */
 .upload-box{
   display: flex;
   flex-direction: column;
@@ -173,5 +263,71 @@
 .upload-text {
   font-size: 17px;
   font-weight: 600;
+  color: #4a4e42;
+}
+
+/* ===== DASHBOARD (After Login) ===== */
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #f6f3e7;
+  min-height: 100vh;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fdfcf5;
+  padding: 20px 30px;
+  border-radius: 18px;
+  margin-bottom: 30px;
+  border: 1px solid #d8d6c8;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #2f4a35;
+}
+
+.user-stats {
+  color: #4a4e42;
+  margin: 5px 0 0 0;
+  font-size: 14px;
+}
+
+.logout-btn {
+  background: #fc8181;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.logout-btn:hover {
+  background: #f56565;
+}
+
+.welcome-section {
+  background: #fdfcf5;
+  padding: 40px;
+  border-radius: 18px;
+  text-align: center;
+  border: 1px solid #d8d6c8;
+}
+
+.welcome-section h2 {
+  font-size: 28px;
+  color: #2f4a35;
+  margin-bottom: 12px;
+}
+
+.welcome-section p {
+  font-size: 18px;
   color: #4a4e42;
 }
