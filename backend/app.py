@@ -1,14 +1,14 @@
-from flask import Flask, request, jsonify
+import os
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from database import create_database, add_discovery, get_discoveries
 from services.vision_api import analyze_image
 from services.nps_api import get_aggregated_park_dashboard, get_all_parks
+import json
 
-import json 
-app = Flask(__name__)
-
-# Crucial: Enable CORS so your React frontend can talk to this server
-CORS(app, resources={r"/*": {"origins": "*"}})
+# Tell Flask where to find the React build files
+app = Flask(__name__, static_folder='dist', static_url_path='')
+CORS(app)
 
 # ROUTES FROM Database & Discoveries
 
@@ -107,6 +107,16 @@ def handle_dashboard():
     dashboard_data = get_aggregated_park_dashboard(park_code)
     
     return jsonify(dashboard_data), 200
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_react(path):
+    # If the requested file exists in the dist folder (like a .css or .js file), serve it
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    # Otherwise, serve the React index.html and let React Router handle the multi-page navigation
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
     print("Starting WildFind Backend on http://localhost:5001")
