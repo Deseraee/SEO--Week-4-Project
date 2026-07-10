@@ -13,7 +13,7 @@ function Home({ username, onLogout }) {
 
   const fetchParks = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/parks')
+      const response = await fetch('/api/parks')
       const data = await response.json()
       if (response.ok) {
         setParks(data.parks || [])
@@ -31,7 +31,7 @@ function Home({ username, onLogout }) {
     setParkInfo(null)
 
     try {
-      const response = await fetch(`http://localhost:5001/api/dashboard?park=${parkCode}`)
+      const response = await fetch(`/api/dashboard?park=${parkCode}`)
       const data = await response.json()
       if (response.ok) {
         setParkInfo(data)

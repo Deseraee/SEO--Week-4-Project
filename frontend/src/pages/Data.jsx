@@ -23,7 +23,7 @@ function Data({ username }) {
   useEffect(() => {
     const fetchDiscoveries = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/discoveries/${username}`)
+        const response = await fetch(`/api/discoveries/${username}`)
         const data = await response.json()
 
         if (response.ok) {

@@ -40,7 +40,7 @@ function Scan({ username }) {
       console.log('Sending image to backend...')
       console.log('Saving scan for username:', username)
       
-      const response = await fetch('http://localhost:5001/api/scan', {
+      const response = await fetch('/api/scan', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
