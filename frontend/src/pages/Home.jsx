@@ -67,7 +67,7 @@ function Home({ username, onLogout }) {
       </div>
 
       <div className="park-selection">
-        <label htmlFor="park-select">Select a national Park:</label>
+        <label htmlFor="park-select">Select a national park:</label>
         <select id="park-select" value={selectedPark} onChange={handleParkSelect}>
           <option value="">-- Choose a Park --</option>
           {parks.map((p) => (

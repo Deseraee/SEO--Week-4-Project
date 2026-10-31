@@ -17,7 +17,7 @@ def create_database():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS discoveries (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT DEFAULT 'guest',
+            username TEXT NOT NULL,
             common_name TEXT NOT NULL,
             scientific_name TEXT,
             description TEXT,
@@ -48,7 +48,7 @@ def add_discovery(data):
         )
         VALUES (?, ?, ?, ?, ?, ?, ?)
     """, (
-        data.get("username", "guest"),
+        data.get("username", ""),
         data["common_name"],
         data.get("scientific_name", ""),
         data.get("description", ""),
